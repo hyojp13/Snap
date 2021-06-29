@@ -3036,7 +3036,7 @@ SpriteMorph.prototype.freshPalette = function (category) {
             );
         }
 
-        menu.addPair(
+        /*menu.addPair(
             [
                 new SymbolMorph(
                     'magnifyingGlass',
@@ -3046,8 +3046,8 @@ SpriteMorph.prototype.freshPalette = function (category) {
             ],
             () => this.searchBlocks(),
             '^F'
-        );
-        if (canHidePrimitives()) {
+        );*/
+        if (false) {
             menu.addItem(
                 'hide primitives',
                 function () {
@@ -9242,7 +9242,7 @@ StageMorph.prototype.normalizePoint = function (snapPoint) {
 */
 
 StageMorph.prototype.hide = function () {
-    this.isVisible = false;
+    //this.isVisible = false;
     this.changed();
 };
 

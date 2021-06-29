@@ -1179,10 +1179,10 @@ CustomCommandBlockMorph.prototype.userMenu = function () {
         }
         if (this.isTemplate) { // inside the palette
             if (this.isGlobal) {
-                menu.addItem(
+                /*menu.addItem(
                     "delete block definition...",
                     'deleteBlockDefinition'
-                );
+                );*/
             } else { // local method
                 if (contains(
                         Object.keys(rcvr.inheritedBlocks()),
@@ -1221,22 +1221,22 @@ CustomCommandBlockMorph.prototype.userMenu = function () {
                     );
                 } else {
                     // own block
-                    menu.addItem(
+                    /*menu.addItem(
                         "delete block definition...",
                         'deleteBlockDefinition'
-                    );
+                    );*/
                 }
             }
-            menu.addItem(
+            /*menu.addItem(
                 "duplicate block definition...",
                 'duplicateBlockDefinition'
-            );
+            );*/
             if (this.isGlobal) {
-                menu.addItem(
+                /*menu.addItem(
                     "export block definition...",
                     'exportBlockDefinition',
                     'including dependencies'
-                );
+                );*/
             }
         } else { // inside a script
             // if global or own method - let the user delete the definition
@@ -1246,10 +1246,10 @@ CustomCommandBlockMorph.prototype.userMenu = function () {
                     this.blockSpec
                 )
             ) {
-                menu.addItem(
+                /*menu.addItem(
                     "delete block definition...",
                     'deleteBlockDefinition'
-                );
+                );*/
             }
         }
 
@@ -1257,7 +1257,7 @@ CustomCommandBlockMorph.prototype.userMenu = function () {
             monitor(vName)
         );
     }
-    menu.addItem("edit...", 'edit'); // works also for prototypes
+    //menu.addItem("edit...", 'edit'); // works also for prototypes
     return menu;
 };
 
