@@ -62,7 +62,7 @@ isNil, WatcherMorph, List, ListWatcherMorph, alert, console, TableMorph, BLACK,
 TableFrameMorph, ColorSlotMorph, isSnapObject, newCanvas, Symbol, SVG_Costume,
 SnapExtensions*/
 
-modules.threads = '2021-June-24';
+modules.threads = '2021-June-18';
 
 var ThreadManager;
 var Process;
@@ -1233,7 +1233,7 @@ Process.prototype.reifyPredicate = function (topBlock, parameterNames) {
 
 Process.prototype.reportJSFunction = function (parmNames, body) {
     if (!this.enableJS) {
-        throw new Error('JavaScript extensions for Snap!\nare turned off');
+        //throw new Error('JavaScript extensions for Snap!\nare turned off');
     }
     return Function.apply(
         null,
@@ -1254,6 +1254,11 @@ Process.prototype.evaluate = function (
         return this.returnValueToParentContext(null);
     }
     if (context instanceof Function) {
+        /*
+        if (!this.enableJS) {
+            throw new Error('JavaScript extensions for Snap!\nare turned off');
+        }
+        */
         return context.apply(
             this.blockReceiver(),
             args.itemsArray().concat([this])

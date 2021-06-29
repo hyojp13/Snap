@@ -137,11 +137,11 @@ SpriteMorph.prototype.categories =
     [
         'motion',
         'control',
-        'looks',
+        //'looks',
         'sensing',
-        'sound',
+        //'sound',
         'operators',
-        'pen',
+        //'pen',
         'variables',
         'lists',
         'other'
@@ -2683,7 +2683,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         blocks.push(block('reportIsA'));
         blocks.push(block('reportIsIdentical'));
 
-        if (Process.prototype.enableJS) {
+        if (true) {
             blocks.push('-');
             blocks.push(block('reportJSFunction'));
             if (Process.prototype.enableCompiling) {
@@ -6185,7 +6185,7 @@ SpriteMorph.prototype.receiveUserInteraction = function (
 
 SpriteMorph.prototype.mouseDoubleClick = function () {
     if (this.isTemporary) {return; }
-    this.edit();
+    //this.edit();
 };
 
 // SpriteMorph timer

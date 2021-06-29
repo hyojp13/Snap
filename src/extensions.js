@@ -29,9 +29,9 @@
 
 /*global modules, List, StageMorph, Costume, SpeechSynthesisUtterance, Sound,
 IDE_Morph, CamSnapshotDialogMorph, SoundRecorderDialogMorph, isSnapObject, nop,
-Color, Process, contains*/
+Color, contains*/
 
-modules.extensions = '2021-June-25';
+modules.extensions = '2021-June-23';
 
 // Global stuff
 
@@ -49,11 +49,6 @@ var SnapExtensions = {
     used as extension primitives for blocks or dynamic dropdown menus. Block
     extensions are stored in the "primitives" dictionary of SnapExtensions,
     dynamic dropdown menus in the "menus" section.
-    
-    You can also extend Snap! with your own externally hosted JavaScript file(s)
-    and have them add your own extension primitives and menus to the global
-    SnapExtensions dictionaries. This lets you provide libraries to support
-    special APIs and custom hardware.
 
     
     1. Primitives (additional blocks)
@@ -114,37 +109,6 @@ var SnapExtensions = {
       "block.inputs()". This will give you an array of all input slots.
       You can access the contents of an input slot by calling "slot.evaluate()"
 
-
-    3. External JavaScript files
-    ============================
-    You can provide extensions for your custom hardware or for arbitrary APIs
-    or extend Snap! with JavaScript libraries from other parties. You can
-    load additional JavaScript files using the "src_load(url)" extension
-    primitive inside Snap, which you can find using Snap's search bar in the
-    IDE. The loading primitive will wait until the source file has fully loaded
-    and its defined functions are ready to be called.
-    
-    adding primitives to SnapExtensions
-    -----------------------------------
-    It is the suggested best practice to expose your own extension primitives
-    by adding them to the global SnapExtensions libraries (for primitives and
-    menus) using the very same conventions described herein, and then to offer
-    a library of custom blocks that make calls to your additional operations.
-
-    publishing an extension
-    -----------------------
-    Running the "src_load(url)" primitive will throw an error unless you first
-    check the "Enable JavaScript extensions" setting in Snap's preferences menu,
-    or if your JavaScript extension comes from a list of trusted hosts.
-    While you develop your JavaScript extension it's recommended to turn the
-    "Enable JavaScript extensions" setting on to load the extension once, and
-    then to turn it off again, so you can make sure your custom blocks are not
-    using any "JS Function" blocks (because those will be caught if the
-    preference is turned off).
-    When you're ready to publish your extension you can contact us to allow-list
-    the url hosting your JS file, or you can send me a Github pull-request to
-    include it in the main Snap branch.
-    
     Whatever you do, please use these extension capabilities sensibly.
 */
 
@@ -716,121 +680,10 @@ SnapExtensions.primitives.set(
     }
 );
 
-// web serial (srl_): // +++ under construction
-
-// commented out for now, pondering - among others, the following questions:
-//
-// * why only support one single port? Why not as many as you want? because "ports" have no object representation in Snap? aren't first-class? Maybe
-// * what happens if you run the "open" block again, while ports are already open?
-// * Should ports be closed when you open another project? Or even when the user presses the red stop sign button?
-// * Should projects and scripts store vendor-specific port-wishes (e.g. "Calliope") and try to automatically connect to those if present?
-//
-
-/*
-SnapExtensions.primitives.set(
-    'srl_open',
-    function () {
-
-        var world = this.world(); // +++ change to IDE, perhaps expand to support multiple open ports
-
-        async function webSerialConnect() { // +++ instead of async make it Snap! thread friendly
-            // Prompt user to choose a serial port and open the one selected.
-
-            var vendorIDs = [ // +++ make it an option to only show these selected vendorIDs, allow to show all existing ones!
-                {usbVendorId: 0x0403},		// FTDI
-                {usbVendorId: 0x0d28},		// micro:bit, Calliope
-                {usbVendorId: 0x10c4},		// Silicon Laboratories, Inc. (CP210x)
-                {usbVendorId: 0x1a86},		// CH340
-                {usbVendorId: 0x239a},		// AdaFruit
-                {usbVendorId: 0x2a03},		// Arduino
-                {usbVendorId: 0x2341},		// Arduino MKR Zero
-                {usbVendorId: 0x03eb},		// Atmel Corporation
-                {usbVendorId: 0x1366},		// SEGGER Calliope mini
-                {usbVendorId: 0x16c0},		// Teensy
-            ];
-            world.webSerialPort = await navigator.serial.requestPort({filters: vendorIDs}).catch((e) => { console.log(e); }); // +++ make "await" Snap! thread friendly, change UI if possible to a non-blocking Morphic menu/dialog
-            if (!world.webSerialPort) {return; } // no serial port selected
-            await world.webSerialPort.open({ baudRate: 115200 }); // +++ make baudrate an optional input (?), make "await" Snap! thread friendly
-            world.webSerialReader = await world.webSerialPort.readable.getReader(); // +++ make "await" Snap! thread friendly
-            webSerialReadLoop();
-        }
-
-        async function webSerialReadLoop() {
-            try {
-                while (true) { // +++ should be improved, make thread-friendly, why is it a loop anyway?
-                    var {value, done} = await world.webSerialReader.read(); // +++ make "await" Snap! thread friendly
-                    if (value) {
-                        world.serialInputBuffers.push(Array.from(value));
-                    }
-                    if (done) { // happens when world.webSerialReader.cancel() is called by disconnect
-                        world.webSerialReader.releaseLock();
-                        return;
-                    }
-                }
-            } catch (e) { // happens when board is unplugged
-                // console.log(e);
-                if (world.webSerialPort) await world.webSerialPort.close().catch(() => {}); // +++ make "await" Snap! thread friendly
-                world.webSerialPort = null; // +++ reformulate "world", use IDE reference
-                world.webSerialReader = null;
-            }
-        }
-
-        world.serialInputBuffers = [];
-        webSerialConnect();
-    }
-);
+// loading external scripts (scr_)
 
 SnapExtensions.primitives.set(
-    'srl_close',
-    function () {
-        var world = this.world(); // +++ change to IDE
-
-        async function webSerialDisconnect() { // +++ make async thread friendly
-            if (world.webSerialReader) await world.webSerialReader.cancel(); // +++ make "await" Snap! thread friendly
-            if (world.webSerialPort) await world.webSerialPort.close().catch(() => {}); // +++ make "await" Snap! thread friendly
-            world.webSerialReader = null;
-            world.webSerialPort = null;
-        }
-
-        webSerialDisconnect();
-    }
-);
-
-SnapExtensions.primitives.set(
-    'srl_read',
-    function () {
-        var world = this.world(); // +++ change to IDE
-
-        function webSerialRead() { // +++ do we need this function at all? Why not run this code directly?
-            if (world.serialInputBuffers && (world.serialInputBuffers.length > 0)) {
-                var result = [].concat.apply([], world.serialInputBuffers);
-                world.serialInputBuffers = [];
-                return new List(result);
-            }
-            return '';
-        }
-
-        return webSerialRead();
-    }
-);
-
-SnapExtensions.primitives.set(
-    'srl_write(dta)',
-    function (data) {
-        var world = this.world(); // +++ change to IDE
-
-        if (!world.webSerialPort || !world.webSerialPort.writable) return 0;  // port not open
-        const w = world.webSerialPort.writable.getWriter();
-        w.write(data.buffer);
-        w.releaseLock();
-    }
-);
-*/
-
-// loading external scripts (src_)
-
-SnapExtensions.primitives.set(
-    'src_load(url)',
+    'scr_load(url)',
     function (url, proc) {
         var scriptElement;
         if (!proc.context.accumulator) {
@@ -838,28 +691,23 @@ SnapExtensions.primitives.set(
             if (contains(SnapExtensions.scripts, url)) {
                 return;
             }
-            if (Process.prototype.enableJS || SnapExtensions.urls.some(
-                any => url.indexOf(any) === 0)
-            ) {
-                scriptElement = document.createElement('script');
-                scriptElement.onload = () => {
-                    SnapExtensions.scripts.push(url);
-                    proc.context.accumulator.done = true;
-                };
-                document.head.appendChild(scriptElement);
-                scriptElement.src = url;
-            } else {
-                throw new Error(
-                    'unlisted extension url:\n"' + url + '"\n' +
-                    'JavaScript extensions for Snap!\nare turned off'
-                );
+            if (!(SnapExtensions.urls.some(any => url.indexOf(any) === 0))) {
+                throw new Error('unlisted extension url:\n"' + url + '"');
             }
+            scriptElement = document.createElement('script');
+            scriptElement.onload = () => {
+                SnapExtensions.scripts.push(url);
+                proc.context.accumulator.done = true;
+            };
+            document.head.appendChild(scriptElement);
+            scriptElement.src = url;
         } else if (proc.context.accumulator.done) {
             return;
         }
         proc.pushContext('doYield');
         proc.pushContext();
     }
+
 );
 
 // Menus

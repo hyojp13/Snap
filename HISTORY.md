@@ -5,25 +5,12 @@
 * **New Features:**
     * new extension primitives
 * **Notable Changes:**
-    * libraries no longer rely on the JSF primitive, project may need to re-import their libraries to run without having to enable JS extensions
-    * retired Leap Motion library, took out Hummingbird library (get the current one from Birdbrain)
+    * libraries no longer rely on the JSF primitive, project may need to re-import their libraries to run without having to enable JS exstensions
 * **Notable Fixes:**
     * fixed occasional invisible error messages
 
-### 2021-06-25
-* extensions: added first rough experimental version of web-serial extension primitives
-* extensions: commented out web-serial extension prims while thinking about their design
-
-### 2021-06-24
-* extensions: tweaked loading unlisted script-extensions
-* byob, threads, store: removed unused code
-* extensions: added documentation for adding external JS modules
-* updated bignumbers library
-
 ### 2021-06-23
 * updated bignums library
-* pushed dev version to 6.10
-* took out device libraries (Hummingbird blocks and Leap Motion)
 
 ### 2021-06-22
 * extensions: added script-loading extension primitive

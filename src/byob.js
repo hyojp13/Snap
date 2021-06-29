@@ -106,7 +106,7 @@ WatcherMorph, XML_Serializer, SnapTranslator, SnapExtensions*/
 
 // Global stuff ////////////////////////////////////////////////////////
 
-modules.byob = '2021-June-24';
+modules.byob = '2021-June-19';
 
 // Declarations
 
@@ -347,6 +347,11 @@ CustomBlockDefinition.prototype.parseChoices = function (string) {
     if (string.match(/^function\s*\(.*\)\s*{.*\n/)) {
         // It's a JS function definition.
         // Let's extract its params and body, and return a Function out of them.
+        /*
+        if (!Process.prototype.enableJS) {
+            throw new Error('JavaScript is not enabled');
+        }
+        */
         params = string.match(/^function\s*\((.*)\)/)[1].split(',');
         body = string.split('\n').slice(1,-1).join('\n');
         return Function.apply(null, params.concat([body]));
@@ -1713,7 +1718,7 @@ BlockDialogMorph.prototype.init = function (target, action, environment) {
     // additional properties:
     this.blockType = 'command';
     this.category = 'other';
-    this.isGlobal = true;
+    this.isGlobal = false;
     this.types = null;
     this.categories = null;
 
@@ -1954,7 +1959,7 @@ BlockDialogMorph.prototype.setType = function (blockType) {
 // scope radio buttons
 
 BlockDialogMorph.prototype.createScopeButtons = function () {
-    this.addScopeButton(
+    /*this.addScopeButton(
         () => this.setScope('global'),
         "for all sprites",
         () => this.isGlobal
@@ -1963,7 +1968,7 @@ BlockDialogMorph.prototype.createScopeButtons = function () {
         () => this.setScope('local'),
         "for this sprite only",
         () => !this.isGlobal
-    );
+    );*/
 };
 
 BlockDialogMorph.prototype.addScopeButton = function (action, label, query) {
@@ -3878,7 +3883,7 @@ function VariableDialogMorph(target, action, environment) {
 VariableDialogMorph.prototype.init = function (target, action, environment) {
     // additional properties:
     this.types = null;
-    this.isGlobal = true;
+    this.isGlobal = false;
 
     // initialize inherited properties:
     BlockDialogMorph.uber.init.call(
@@ -3895,7 +3900,7 @@ VariableDialogMorph.prototype.init = function (target, action, environment) {
 };
 
 VariableDialogMorph.prototype.createTypeButtons = function () {
-    this.addTypeButton(
+    /*this.addTypeButton(
         () => this.setType('global'),
         "for all sprites",
         () => this.isGlobal
@@ -3904,7 +3909,7 @@ VariableDialogMorph.prototype.createTypeButtons = function () {
         () => this.setType('local'),
         "for this sprite only",
         () => !this.isGlobal
-    );
+    );*/
 };
 
 VariableDialogMorph.prototype.addTypeButton

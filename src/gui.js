@@ -78,7 +78,7 @@ Animation, BoxMorph, BlockEditorMorph, BlockDialogMorph, Note, ZERO, BLACK*/
 
 // Global stuff ////////////////////////////////////////////////////////
 
-modules.gui = '2021-June-23';
+modules.gui = '2021-June-14';
 
 // Declarations
 
@@ -1053,7 +1053,7 @@ IDE_Morph.prototype.createControlBar = function () {
     // button.hint = 'open, save, & annotate project';
     button.fixLayout();
     projectButton = button;
-    this.controlBar.add(projectButton);
+    //this.controlBar.add(projectButton);
     this.controlBar.projectButton = projectButton; // for menu positioning
 
     // settingsButton
@@ -1076,7 +1076,7 @@ IDE_Morph.prototype.createControlBar = function () {
     // button.hint = 'edit settings';
     button.fixLayout();
     settingsButton = button;
-    this.controlBar.add(settingsButton);
+    //this.controlBar.add(settingsButton);
     this.controlBar.settingsButton = settingsButton; // for menu positioning
 
     // cloudButton
@@ -1106,7 +1106,7 @@ IDE_Morph.prototype.createControlBar = function () {
     button.fixLayout();
     button.refresh();
     cloudButton = button;
-    this.controlBar.add(cloudButton);
+    //this.controlBar.add(cloudButton);
     this.controlBar.cloudButton = cloudButton; // for menu positioning & refresh
 
     this.controlBar.fixLayout = function () {
@@ -1495,7 +1495,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
         button.setTop(button.top()
             + ((rotationStyleButtons.length - 1) * (button.height() + 2))
             );
-        myself.spriteBar.add(button);
+        //myself.spriteBar.add(button);
         if (myself.currentSprite instanceof StageMorph) {
             button.hide();
         }
@@ -1514,7 +1514,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
     thumbnail.setPosition(
         rotationStyleButtons[0].topRight().add(new Point(5, 3))
     );
-    this.spriteBar.add(thumbnail);
+    //this.spriteBar.add(thumbnail);
 
     thumbnail.fps = 3;
 
@@ -1533,7 +1533,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
     nameField.setWidth(100); // fixed dimensions
     nameField.contrast = 90;
     nameField.setPosition(thumbnail.topRight().add(new Point(10, 3)));
-    this.spriteBar.add(nameField);
+    //this.spriteBar.add(nameField);
     this.spriteBar.nameField = nameField;
     nameField.fixLayout();
     nameField.accept = function () {
@@ -1572,7 +1572,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
 
     padlock.setPosition(nameField.bottomLeft().add(2));
     padlock.fixLayout();
-    this.spriteBar.add(padlock);
+    //this.spriteBar.add(padlock);
     if (this.currentSprite instanceof StageMorph) {
         padlock.hide();
     }
@@ -1634,7 +1634,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
     tab.labelShadowColor = tabColors[1];
     tab.labelColor = this.buttonLabelColor;
     tab.fixLayout();
-    tabBar.add(tab);
+    //tabBar.add(tab);
 
     tab = new TabMorph(
         tabColors,
@@ -1650,7 +1650,7 @@ IDE_Morph.prototype.createSpriteBar = function () {
     tab.labelShadowColor = tabColors[1];
     tab.labelColor = this.buttonLabelColor;
     tab.fixLayout();
-    tabBar.add(tab);
+    //tabBar.add(tab);
 
     tabBar.fixLayout();
     tabBar.children.forEach(each =>
@@ -1790,7 +1790,7 @@ IDE_Morph.prototype.createCorralBar = function () {
     newbutton.fixLayout();
     newbutton.setCenter(this.corralBar.center());
     newbutton.setLeft(this.corralBar.left() + padding);
-    this.corralBar.add(newbutton);
+    //this.corralBar.add(newbutton);
 
     paintbutton = new PushButtonMorph(
         this,
@@ -1813,7 +1813,7 @@ IDE_Morph.prototype.createCorralBar = function () {
     paintbutton.setLeft(
         this.corralBar.left() + padding + newbutton.width() + padding
     );
-    this.corralBar.add(paintbutton);
+    //this.corralBar.add(paintbutton);
 
     if (CamSnapshotDialogMorph.prototype.enableCamera) {
         cambutton = new PushButtonMorph(
@@ -1843,7 +1843,7 @@ IDE_Morph.prototype.createCorralBar = function () {
             paintbutton.width() +
             padding
         );
-        this.corralBar.add(cambutton);
+        //this.corralBar.add(cambutton);
         document.addEventListener(
             'cameraDisabled',
             event => {
@@ -1874,7 +1874,7 @@ IDE_Morph.prototype.createCorralBar = function () {
     trashbutton.fixLayout();
     trashbutton.setCenter(this.corralBar.center());
     trashbutton.setRight(this.corralBar.right() - padding);
-    this.corralBar.add(trashbutton);
+    //this.corralBar.add(trashbutton);
 
     trashbutton.wantsDropOf = (morph) =>
         morph instanceof SpriteMorph || morph instanceof SpriteIconMorph;
@@ -1918,11 +1918,11 @@ IDE_Morph.prototype.createCorral = function () {
     this.corral.color = this.groupColor;
     this.corral.getRenderColor = ScriptsMorph.prototype.getRenderColor;
 
-    this.add(this.corral);
+    //this.add(this.corral);
 
     this.corral.stageIcon = new SpriteIconMorph(this.stage);
     this.corral.stageIcon.isDraggable = false;
-    this.corral.add(this.corral.stageIcon);
+    //this.corral.add(this.corral.stageIcon);
 
     frame = new ScrollFrameMorph(null, null, this.sliderColor);
     frame.acceptsDrops = false;
@@ -3252,7 +3252,7 @@ IDE_Morph.prototype.snapMenu = function () {
             new Color(100, 0, 0)
         );
     }
-    menu.popup(world, this.logo.bottomLeft());
+    //menu.popup(world, this.logo.bottomLeft());
 };
 
 IDE_Morph.prototype.cloudMenu = function () {
@@ -4390,7 +4390,7 @@ IDE_Morph.prototype.aboutSnap = function () {
         module, btn1, btn2, btn3, btn4, licenseBtn, translatorsBtn,
         world = this.world();
 
-    aboutTxt = 'Snap! 6.10.0 - dev -\nBuild Your Own Blocks\n\n'
+    aboutTxt = 'Snap! 6.9.1 - dev -\nBuild Your Own Blocks\n\n'
         + 'Copyright \u24B8 2008-2021 Jens M\u00F6nig and '
         + 'Brian Harvey\n'
         + 'jens@moenig.org, bh@cs.berkeley.edu\n\n'
